@@ -1,5 +1,8 @@
 # MySQL
 
-## Docker
+## Client
 
-- [MySQL + Adminer](mysql-adminer-docker/)
+---
+
+- [Adminer](mysql-adminer-docker/)
+- [mysql (client)](mysql-client-docker/)

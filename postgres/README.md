@@ -1,6 +1,9 @@
 # Postgres
 
-## Docker
+## Client
 
-- [Postgres + Adminer](postgres-adminer-docker/)
-- [Postgres + pgAdmin4](postgres-pgadmin-docker/)
+---
+
+- [Adminer](pg-adminer-docker/)
+- [pgAdmin4](pg-pgadmin-docker/)
+- [psql (client)](pg-psql-docker/)

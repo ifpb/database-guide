@@ -1,5 +1,7 @@
 # Databases
 
-- [Mysql](mysql/)
-- [Mongo](mongo/)
-- [Postgres](postgres/)
+- SQL
+  - [MySQL](mysql/)
+  - [Postgres](postgres/)
+- NoSQL
+  - [Mongo](mongo/)

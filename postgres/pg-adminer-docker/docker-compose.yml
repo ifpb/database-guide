@@ -3,6 +3,7 @@ version: '3.1'
 services:
 
   pg:
+    container_name: pg
     image: postgres:12.1
     restart: always
     environment:
@@ -12,18 +13,14 @@ services:
     ports:
       - 5432:5432
 
-  pgadmin:
-    image: dpage/pgadmin4:4.16
+  adminer:
+    container_name: adminer
+    image: adminer:4.7.5
     restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
-    depends_on:
-      - db
     networks:
       - app-tier
     ports:
-      - 8080:80
+      - 8080:8080
 
 networks:
   app-tier:
