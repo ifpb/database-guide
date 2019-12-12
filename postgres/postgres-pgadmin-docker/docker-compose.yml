@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+
+  pg:
+    image: postgres:12.1
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - app-tier
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4:4.16
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - app-tier
+    ports:
+      - 8080:80
+
+networks:
+  app-tier:
+    driver: bridge
