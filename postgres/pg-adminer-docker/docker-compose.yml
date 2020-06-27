@@ -21,6 +21,8 @@ services:
       - app-tier
     ports:
       - 8080:8080
+    depends_on:
+      - pg
 
 networks:
   app-tier:

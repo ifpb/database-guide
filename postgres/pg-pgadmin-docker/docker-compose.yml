@@ -26,6 +26,8 @@ services:
       - app-tier
     ports:
       - 8080:80
+    depends_on:
+      - mysql
 
 networks:
   app-tier:
