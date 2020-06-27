@@ -1,11 +1,16 @@
 # SQL GUIDE
 
-* [Dados](#dados)
-* [Comandos](#comandos)
-    * [Database](#database)
-    * [Table](#table)
-    * CRUD ([Create](#crud---create), [Read](#crud---read), [Update](#crud---update), [Delete](#crud---delete))
-* Database Relation [(1-N)](#database-relation-1-n)
+- [SQL GUIDE](#sql-guide)
+  - [## Dados](#h2-iddados-8dadosh2)
+  - [## Comandos](#h2-idcomandos-8comandosh2)
+    - [Database](#database)
+    - [Table](#table)
+    - [CRUD - Create](#crud---create)
+    - [CRUD - Read](#crud---read)
+    - [CRUD - Update](#crud---update)
+    - [CRUD - Delete](#crud---delete)
+    - [Database Relation (1-N)](#database-relation-1-n)
+  - [## References](#h2-idreferences-8referencesh2)
 
 ## Dados
 ---
@@ -242,7 +247,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT name, address FROM host 
+> SELECT name, address FROM host
     ORDER BY name;
 +-----------------+--------------+
 | name            | address      |
@@ -255,7 +260,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT name, address FROM host 
+> SELECT name, address FROM host
     WHERE id = 1;
 +-----------------+--------------+
 | name            | address      |
@@ -266,7 +271,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT name, address FROM host 
+> SELECT name, address FROM host
     WHERE name LIKE '%ifpb%' AND address LIKE '200.%.%.%';
 +-----------------+--------------+
 | name            | address      |
@@ -278,7 +283,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT * FROM host 
+> SELECT * FROM host
     LIMIT 2;
 +----+-----------------+--------------+
 | id | name            | address      |
@@ -290,8 +295,8 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT * FROM host 
-    LIMIT 2 
+> SELECT * FROM host
+    LIMIT 2
     OFFSET 1;
 +----+-----------------+--------------+
 | id | name            | address      |
@@ -321,7 +326,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 Query OK, 1 row affected (0.01 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
-> SELECT * FROM host 
+> SELECT * FROM host
     WHERE id = 2;
 +----+-----------------+-----------+
 | id | name            | address   |
@@ -333,12 +338,12 @@ Rows matched: 1  Changed: 1  Warnings: 0
 
 ```sql
 > UPDATE host
-    SET name = 'portal.ifrn.edu.br', address = '10.0.0.100' 
+    SET name = 'portal.ifrn.edu.br', address = '10.0.0.100'
     WHERE id = 2;
 Query OK, 1 row affected (0.01 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
-> SELECT * FROM host 
+> SELECT * FROM host
     WHERE id = 2;
 +----+--------------------+------------+
 | id | name               | address    |
@@ -361,7 +366,7 @@ Rows matched: 1  Changed: 1  Warnings: 0
     WHERE id = 1;
 Query OK, 1 row affected (0.01 sec)
 
-> SELECT * FROM host 
+> SELECT * FROM host
     WHERE id = 1;
 Empty set (0.00 sec)
 ```
@@ -426,9 +431,9 @@ Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT 
-    * 
-  FROM 
+> SELECT
+    *
+  FROM
     host INNER JOIN history;
 +----+--------------------+--------------+----+-------------+----------+---------------------+---------+
 | id | name               | address      | id | transmitted | received | time                | host_id |
@@ -448,11 +453,11 @@ Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT 
-    * 
-  FROM 
+> SELECT
+    *
+  FROM
     host INNER JOIN history
-  WHERE 
+  WHERE
     host.id = history.host_id;
 +----+--------------------+--------------+----+-------------+----------+---------------------+---------+
 | id | name               | address      | id | transmitted | received | time                | host_id |
@@ -467,14 +472,14 @@ Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT 
-    sum(history.transmitted) AS transmitted, 
-    sum(history.received) AS received, 
-    round(history.received/history.transmitted, 2) AS percent 
-  FROM 
+> SELECT
+    sum(history.transmitted) AS transmitted,
+    sum(history.received) AS received,
+    round(history.received/history.transmitted, 2) AS percent
+  FROM
     host INNER JOIN history
-  WHERE 
-    host.id = history.host_id AND 
+  WHERE
+    host.id = history.host_id AND
     host.name LIKE '%ifpb%';
 +-------------+----------+---------+
 | transmitted | received | percent |
@@ -497,9 +502,9 @@ Bye
 - Mysql: [Data types](https://www.tutorialspoint.com/mysql/mysql-data-types.htm), [Functions](https://www.w3schools.com/sql/sql_ref_mysql.asp), [Operators](https://www.w3schools.com/sql/sql_operators.asp)
 - [Oracle - Database SQL Language Reference](https://docs.oracle.com/database/121/SQLRF/toc.htm)
 - SQL Tutorial: [W3Schools](https://www.w3schools.com/sql/default.asp) e [TutorialsPoint](https://www.tutorialspoint.com/sql/index.htm)
-- SQL cheat sheet: [ZeroTurnaround](https://zeroturnaround.com/rebellabs/sql-cheat-sheet/), [cse.unl.edu](http://cse.unl.edu/~sscott/ShowFiles/SQL/CheatSheet/SQLCheatSheet.html), [hofmannsven](https://gist.github.com/hofmannsven/9164408), [sqltutorial](http://www.sqltutorial.org/sql-cheat-sheet/)
+- SQL cheat sheet: [Websitesetup](https://websitesetup.org/sql-cheat-sheet/), [ZeroTurnaround](https://zeroturnaround.com/rebellabs/sql-cheat-sheet/), [cse.unl.edu](http://cse.unl.edu/~sscott/ShowFiles/SQL/CheatSheet/SQLCheatSheet.html), [hofmannsven](https://gist.github.com/hofmannsven/9164408), [sqltutorial](http://www.sqltutorial.org/sql-cheat-sheet/)
 
-<!-- 
+<!--
 TODO
 - diagram txt, png
   - https://github.com/BurntSushi/erd
