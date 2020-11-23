@@ -1,18 +1,20 @@
 # SQL GUIDE
 
-- [SQL GUIDE](#sql-guide)
-  - [## Dados](#h2-iddados-8dadosh2)
-  - [## Comandos](#h2-idcomandos-8comandosh2)
+  - [Dataset](#dataset)
+  - [Data Definition Language (DDL)](#data-definition-language-ddl)
     - [Database](#database)
     - [Table](#table)
-    - [CRUD - Create](#crud---create)
-    - [CRUD - Read](#crud---read)
-    - [CRUD - Update](#crud---update)
-    - [CRUD - Delete](#crud---delete)
-    - [Database Relation (1-N)](#database-relation-1-n)
-  - [## References](#h2-idreferences-8referencesh2)
+  - [Data Manipulation Language (DML)](#data-manipulation-language-dml)
+    - [INSERT](#insert)
+    - [SELECT](#select)
+    - [UPDATE](#update)
+    - [DELETE](#delete)
+  - [Database Relationships](#database-relationships)
+    - [1-N](#1-n)
+  - [References](#references)
 
-## Dados
+## Dataset
+
 ---
 
 | name               | address      | transmitted | received | time                |
@@ -30,7 +32,8 @@
 3. Qual é a porcentagem de pacotes recebidos do IFPB?
 4. Qual é a porcentagem de pacotes perdidos do IFPB no dia 16/02/2018 entre 09:00 até 18:00?
 
-## Comandos
+## Data Definition Language (DDL)
+
 ---
 
 > **DICAS:**
@@ -127,7 +130,7 @@ Query OK, 0 rows affected (0.00 sec)
 +---------+--------------+------+-----+---------+----------------+
 | Field   | Type         | Null | Key | Default | Extra          |
 +---------+--------------+------+-----+---------+----------------+
-| id      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| id      | int          | NO   | PRI | NULL    | auto_increment |
 | name    | varchar(100) | NO   |     | NULL    |                |
 | address | varchar(100) | NO   |     | NULL    |                |
 +---------+--------------+------+-----+---------+----------------+
@@ -161,24 +164,24 @@ Query OK, 0 rows affected (0.00 sec)
 ```
 
 ```sql
-> DESCRIBE host;
+> DESCRIBE hosts;
 +---------+--------------+------+-----+---------+----------------+
 | Field   | Type         | Null | Key | Default | Extra          |
 +---------+--------------+------+-----+---------+----------------+
-| id      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| id      | int          | NO   | PRI | NULL    | auto_increment |
 | name    | varchar(100) | NO   |     | NULL    |                |
 | address | varchar(100) | NO   |     | NULL    |                |
 +---------+--------------+------+-----+---------+----------------+
 
-> ALTER TABLE host ADD COLUMN mask varchar(100);
+> ALTER TABLE hosts ADD COLUMN mask varchar(100);
 Query OK, 0 rows affected (0.01 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-> DESCRIBE host;
+> DESCRIBE hosts;
 +---------+--------------+------+-----+---------+----------------+
 | Field   | Type         | Null | Key | Default | Extra          |
 +---------+--------------+------+-----+---------+----------------+
-| id      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| id      | int          | NO   | PRI | NULL    | auto_increment |
 | name    | varchar(100) | NO   |     | NULL    |                |
 | address | varchar(100) | NO   |     | NULL    |                |
 | mask    | varchar(100) | YES  |     | NULL    |                |
@@ -187,31 +190,35 @@ Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> ALTER TABLE host DROP COLUMN mask;
+> ALTER TABLE hosts DROP COLUMN mask;
 Query OK, 0 rows affected (0.01 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-> DESCRIBE host;
+> DESCRIBE hosts;
 +---------+--------------+------+-----+---------+----------------+
 | Field   | Type         | Null | Key | Default | Extra          |
 +---------+--------------+------+-----+---------+----------------+
-| id      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| id      | int          | NO   | PRI | NULL    | auto_increment |
 | name    | varchar(100) | NO   |     | NULL    |                |
 | address | varchar(100) | NO   |     | NULL    |                |
 +---------+--------------+------+-----+---------+----------------+
 3 rows in set (0.00 sec)
 ```
 
-### CRUD - Create
+## Data Manipulation Language (DML)
+
+---
+
+### INSERT
 
 ```sql
-> INSERT INTO host
+> INSERT INTO hosts
     VALUES (1, 'www.ifpb.edu.br', '200.10.10.10');
 Query OK, 1 row affected (0.01 sec)
 ```
 
 ```sql
-> INSERT INTO host
+> INSERT INTO hosts
       (name, address)
     VALUES
       ('www.ifrn.edu.br', '200.10.10.11'),
@@ -220,10 +227,10 @@ Query OK, 2 rows affected (0.01 sec)
 Records: 2  Duplicates: 0  Warnings: 0
 ```
 
-### CRUD - Read
+### SELECT
 
 ```sql
-> SELECT * FROM host;
+> SELECT * FROM hosts;
 +----+-----------------+--------------+
 | id | name            | address      |
 +----+-----------------+--------------+
@@ -235,7 +242,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT name, address FROM host;
+> SELECT name, address FROM hosts;
 +-----------------+--------------+
 | name            | address      |
 +-----------------+--------------+
@@ -247,7 +254,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT name, address FROM host
+> SELECT name, address FROM hosts
     ORDER BY name;
 +-----------------+--------------+
 | name            | address      |
@@ -260,7 +267,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT name, address FROM host
+> SELECT name, address FROM hosts
     WHERE id = 1;
 +-----------------+--------------+
 | name            | address      |
@@ -271,7 +278,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT name, address FROM host
+> SELECT name, address FROM hosts
     WHERE name LIKE '%ifpb%' AND address LIKE '200.%.%.%';
 +-----------------+--------------+
 | name            | address      |
@@ -283,7 +290,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT * FROM host
+> SELECT * FROM hosts
     LIMIT 2;
 +----+-----------------+--------------+
 | id | name            | address      |
@@ -295,7 +302,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT * FROM host
+> SELECT * FROM hosts
     LIMIT 2
     OFFSET 1;
 +----+-----------------+--------------+
@@ -308,7 +315,7 @@ Records: 2  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
-> SELECT COUNT(*) AS total FROM host;
+> SELECT COUNT(*) AS total FROM hosts;
 +-------+
 | total |
 +-------+
@@ -317,16 +324,16 @@ Records: 2  Duplicates: 0  Warnings: 0
 1 row in set (0.00 sec)
 ```
 
-### CRUD - Update
+### UPDATE
 
 ```sql
-> UPDATE host
+> UPDATE hosts
     SET address = '10.0.0.10'
     WHERE id = 2;
 Query OK, 1 row affected (0.01 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
-> SELECT * FROM host
+> SELECT * FROM hosts
     WHERE id = 2;
 +----+-----------------+-----------+
 | id | name            | address   |
@@ -337,13 +344,13 @@ Rows matched: 1  Changed: 1  Warnings: 0
 ```
 
 ```sql
-> UPDATE host
+> UPDATE hosts
     SET name = 'portal.ifrn.edu.br', address = '10.0.0.100'
     WHERE id = 2;
 Query OK, 1 row affected (0.01 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
-> SELECT * FROM host
+> SELECT * FROM hosts
     WHERE id = 2;
 +----+--------------------+------------+
 | id | name               | address    |
@@ -352,33 +359,37 @@ Rows matched: 1  Changed: 1  Warnings: 0
 +----+--------------------+------------+
 ```
 
-### CRUD - Delete
+### DELETE
 
 ```sql
-> SELECT * FROM host;
+> SELECT * FROM hosts;
 +----+-----------------+--------------+
 | id | name            | address      |
 +----+-----------------+--------------+
 |  1 | www.ifpb.edu.br | 200.10.10.10 |
 +----+-----------------+--------------+
 
-> DELETE FROM host
+> DELETE FROM hosts
     WHERE id = 1;
 Query OK, 1 row affected (0.01 sec)
 
-> SELECT * FROM host
+> SELECT * FROM hosts
     WHERE id = 1;
 Empty set (0.00 sec)
 ```
 
 > **DICA:** Muito cuidado com o `DELETE` e `UPDATE` sem o `WHERE`!
 
-### Database Relation (1-N)
+## Database Relationships
 
-![erd diagram](monitor_db.png)
+---
+
+###  1-N
+
+![erd diagram](assets/monitor_db.png)
 
 ```sql
-> CREATE TABLE history (
+> CREATE TABLE histories (
     id int NOT NULL AUTO_INCREMENT,
     transmitted int NOT NULL,
     received int NOT NULL,
@@ -386,27 +397,27 @@ Empty set (0.00 sec)
     host_id int NOT NULL,
     PRIMARY KEY (id),
     KEY host_id (host_id),
-    CONSTRAINT fk_host_id FOREIGN KEY (host_id) REFERENCES host (id)
+    CONSTRAINT fk_host_id FOREIGN KEY (host_id) REFERENCES hosts (id)
 );
 Query OK, 0 rows affected (0.02 sec)
 ```
 
 ```sql
-> DESCRIBE history;
-+-------------+---------+------+-----+---------+----------------+
-| Field       | Type    | Null | Key | Default | Extra          |
-+-------------+---------+------+-----+---------+----------------+
-| id          | int(11) | NO   | PRI | NULL    | auto_increment |
-| transmitted | int(11) | YES  |     | NULL    |                |
-| received    | int(11) | YES  |     | NULL    |                |
-| time        | time    | YES  |     | NULL    |                |
-| host_id     | int(11) | YES  | MUL | NULL    |                |
-+-------------+---------+------+-----+---------+----------------+
+> DESCRIBE histories;
++-------------+------+------+-----+---------+----------------+
+| Field       | Type | Null | Key | Default | Extra          |
++-------------+------+------+-----+---------+----------------+
+| id          | int  | NO   | PRI | NULL    | auto_increment |
+| transmitted | int  | YES  |     | NULL    |                |
+| received    | int  | YES  |     | NULL    |                |
+| time        | time | YES  |     | NULL    |                |
+| host_id     | int  | YES  | MUL | NULL    |                |
++-------------+------+------+-----+---------+----------------+
 5 rows in set (0.00 sec)
 ```
 
 ```sql
-> INSERT INTO history
+> INSERT INTO histories
     (transmitted, received, time, host_id)
   VALUES
     (4, 4, NOW(), 2),
@@ -417,7 +428,7 @@ Query OK, 0 rows affected (0.02 sec)
 Query OK, 5 rows affected (0.01 sec)
 Records: 5  Duplicates: 0  Warnings: 0
 
-> SELECT * FROM history;
+> SELECT * FROM histories;
 +----+-------------+----------+---------------------+---------+
 | id | transmitted | received | time                | host_id |
 +----+-------------+----------+---------------------+---------+
@@ -434,7 +445,7 @@ Records: 5  Duplicates: 0  Warnings: 0
 > SELECT
     *
   FROM
-    host INNER JOIN history;
+    hosts INNER JOIN histories;
 +----+--------------------+--------------+----+-------------+----------+---------------------+---------+
 | id | name               | address      | id | transmitted | received | time                | host_id |
 +----+--------------------+--------------+----+-------------+----------+---------------------+---------+
@@ -456,9 +467,9 @@ Records: 5  Duplicates: 0  Warnings: 0
 > SELECT
     *
   FROM
-    host INNER JOIN history
+    hosts INNER JOIN histories
   WHERE
-    host.id = history.host_id;
+    hosts.id = histories.host_id;
 +----+--------------------+--------------+----+-------------+----------+---------------------+---------+
 | id | name               | address      | id | transmitted | received | time                | host_id |
 +----+--------------------+--------------+----+-------------+----------+---------------------+---------+
@@ -473,19 +484,19 @@ Records: 5  Duplicates: 0  Warnings: 0
 
 ```sql
 > SELECT
-    sum(history.transmitted) AS transmitted,
-    sum(history.received) AS received,
-    round(history.received/history.transmitted, 2) AS percent
+    sum(histories.received) AS received,
+    sum(histories.transmitted) AS transmitted,
+    round(sum(histories.received)/sum(histories.transmitted), 2) AS percent
   FROM
-    host INNER JOIN history
+    hosts INNER JOIN histories
   WHERE
-    host.id = history.host_id AND
-    host.name LIKE '%ifpb%';
-+-------------+----------+---------+
-| transmitted | received | percent |
-+-------------+----------+---------+
-|          12 |        9 |    0.75 |
-+-------------+----------+---------+
+    hosts.id = histories.host_id AND
+    hosts.name LIKE '%ifpb%';
++----------+-------------+---------+
+| received | transmitted | percent |
++----------+-------------+---------+
+|        9 |          12 |    0.75 |
++----------+-------------+---------+
 1 row in set (0.00 sec)
 ```
 
@@ -495,6 +506,7 @@ Bye
 ```
 
 ## References
+
 ---
 
 - [enochtangg/quick-SQL-cheatsheet](https://github.com/enochtangg/quick-SQL-cheatsheet)
@@ -513,5 +525,5 @@ TODO
   - mysql workbench
 - ALTER TABLE tablename AUTO_INCREMENT = 1
 - explorar mensagem de error
-- select * from history where id = (select id from history order by id desc limit 1);
+- select * from histories where id = (select id from histories order by id desc limit 1);
 -->

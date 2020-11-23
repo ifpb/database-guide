@@ -17,7 +17,7 @@ services:
       - 3306:3306
 
   adminer:
-    image: adminer:4.7.5
+    image: adminer:4.7
     restart: always
     networks:
       - app-tier
